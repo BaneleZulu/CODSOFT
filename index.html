@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="BaneleZulu">
+    <meta name="keyword" content="Calculator App, Calculator project">
+    <meta name="description" content="CODSOFT calculator project using html, css, and js">
+    <title>Calculator App</title>
+    <link rel="icon" href="Images/logo_2.jpeg" type="image/x-icon">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lobster&family=Lugrasimo&family=M+PLUS+1+Code:wght@100..700&family=Play:wght@400;700&family=Rubik+Moonrocks&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <form action="" id="body">
+        <div class="top_section">
+            <div class="top_lvl_header">
+                <span>
+                    <img src="Images/calculator (2).png" alt="calculator image">
+                    <h4>Calculator <b>.</b></h4>
+                </span>
+                <span id="themeControl">
+                    <img src="Images/sun.png" alt="Theme control" id="theme_img">
+                </span>
+            </div>
+        </div>
+
+        <input type="text" id="screen" class="mid_section" title="Screen" readonly>
+
+        <div class="bottom_section">
+            <!--**1st  Row Buttons -->
+            <img src="Images/power-off.png" alt="PowerControl Image" id="powerBtn">
+            <input type="button" id="clr" class="button fun_button" value="Clr" onclick="screen.value = null" disabled>
+            <input type="button" id="del" class="button fun_button" value="Del"
+                onclick="screen.value = screen.value.toString().slice(0, -1)" disabled>
+            <input type="button" id="/" class="button operation_button" value="/" onclick="screen.value += '/'"
+                disabled>
+            <!--** 2nd Row Buttons -->
+            <input type="button" id="9" class="button number_button" value="9" onclick="screen.value += '9'" disabled>
+            <input type="button" id="8" class="button number_button" value="8" onclick="screen.value += '8'" disabled>
+            <input type="button" id="7" class="button number_button" value="7" onclick="screen.value += '7'" disabled>
+            <input type="button" id="*" class="button operation_button" value="*" onclick="screen.value += '*'"
+                disabled>
+            <!--**3rd  Row Buttons -->
+            <input type="button" id="6" class="button number_button" value="6" onclick="screen.value += '6'" disabled>
+            <input type="button" id="5" class="button number_button" value="5" onclick="screen.value += '5'" disabled>
+            <input type="button" id="4" class="button number_button" value="4" onclick="screen.value += '4'" disabled>
+            <input type="button" id="-" class="button operation_button" value="-" onclick="screen.value += '-'"
+                disabled>
+            <!--**4th  Row Buttons -->
+            <input type="button" id="3" class="button number_button" value="3" onclick="screen.value += '3'" disabled>
+            <input type="button" id="2" class="button number_button" value="2" onclick="screen.value += '2'" disabled>
+            <input type="button" id="1" class="button number_button" value="1" onclick="screen.value += '1'" disabled>
+            <input type="button" id="+" class="button operation_button" value="+" onclick="screen.value += '+'"
+                disabled>
+            <!--**5th  Row Buttons -->
+            <input type="button" id="0" class="button number_button" value="0" onclick="screen.value += '0'" disabled>
+            <input type="button" id="." class="button fun_button" value="." onclick="screen.value += '.'" disabled>
+            <input type="button" id="=" class="button operation_button" value="="
+                onclick="screen.value = eval(screen.value)" disabled>
+        </div>
+    </form>
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        event.preventDefault();
+        const display = document.getElementById('screen');
+        const theme_control = document.getElementById('themeControl');
+
+        function disableButtons() {
+            const fun_buttons = document.querySelectorAll('.fun_button');
+            const ops_buttons = document.querySelectorAll('.operation_button');
+            const num_buttons = document.querySelectorAll('.number_button');
+            const buttons = [...fun_buttons, ...ops_buttons, ...num_buttons];
+            buttons.forEach((button) => {
+                button.disabled = true;
+                // button.style.color = "blue";
+            });
+        }
+
+        function enableButtons() {
+            const fun_buttons = document.querySelectorAll('.fun_button');
+            const ops_buttons = document.querySelectorAll('.operation_button');
+            const num_buttons = document.querySelectorAll('.number_button');
+            const buttons = [...fun_buttons, ...ops_buttons, ...num_buttons];
+            buttons.forEach((button) => {
+                button.disabled = false;
+                //button.style.color = "red";
+            });
+        }
+
+        let isPowerOn = false;
+        document.getElementById("powerBtn").addEventListener("click", function () {
+            let power_icon = document.getElementsByTagName('b')[0];
+            if (!isPowerOn) {
+                isPowerOn = true;
+                power_icon.style.color = "green";
+                //alert("ON");
+                enableButtons();
+            } else {
+                isPowerOn = false;
+                power_icon.style.color = "red";
+                //alert("OFF");
+                display.value = null;
+                disableButtons();
+            }
+        });
+
+
+        let isDarkMode = true;
+        theme_control.addEventListener("click", function () {
+            let theme_img = document.getElementById("theme_img");
+            let header = document.getElementsByTagName('h4')[0];
+            if (!isDarkMode) {
+                // alert("Dark Mode");
+                theme_img.src = "Images/night.png";
+                background_control(`#31363f`);
+                header.style.color = "white";
+                operation_color_control(`#ff8a08`, `black`);
+                function_color_control(`#eeeeee`, `7d7c7c`);
+                number_color_control(`#222831`, `#fff`);
+                isDarkMode = true;
+            } else {
+                // alert("Light Mode");
+                theme_img.src = "Images/sun.png";
+                background_control(`#FEFAF6`);
+                operation_color_control(`#ff8a08`, `white`);
+                function_color_control(`#EEEEEE`, `white`);
+                number_color_control(`#EEEEEE`, `#222831`);
+                header.style.color = "black";
+                isDarkMode = false;
+            }
+        });
+
+        //** This is a function that controls the bg /
+        function background_control(color) {
+            document.getElementById('body').style.backgroundColor = ` ${color}`;
+        }
+
+        //* This function controls the color for the operator buttons  */
+        function operation_color_control(bg_clr, color) {
+            const op_buttons = document.getElementsByClassName("operation_button");
+            Array.from(op_buttons).forEach((button) => {
+                button.style.backgroundColor = bg_clr;
+                button.style.color = color;
+            });
+        }
+
+        function function_color_control(bg_clr, color) {
+            const fun_buttons = document.getElementsByClassName("fun_button");
+            Array.from(fun_buttons).forEach((button) => {
+                button.style.backgroundColor = bg_clr;
+            });
+        }
+
+        function number_color_control(bg_clr, color) {
+            const num_buttons = document.getElementsByClassName("number_button");
+            Array.from(num_buttons).forEach((button) => {
+                button.style.backgroundColor = bg_clr;
+                button.style.color = color;
+            });
+        }
+
+    });
+</script>
+
+</html>
